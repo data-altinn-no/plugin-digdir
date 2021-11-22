@@ -1,107 +1,166 @@
 using System.Collections.Generic;
-using Altinn.Dan.Plugin.Digdir.Config;
 using Nadobe.Common.Interfaces;
 using Nadobe.Common.Models;
 using Nadobe.Common.Models.Enums;
 
 namespace Altinn.Dan.Plugin.Digdir
 {
-    public class Metadata
+    public class EvidenceSourceMetadata : IEvidenceSourceMetadata
     {
-        private ApplicationSettings _settings;
-
-        public Metadata(IApplicationSettings settings)
-        {
-            _settings = (ApplicationSettings)settings;
-        }
+        public const string Source = "Digdir";
+        public const int OrganizationNotFound = 1;
+        public const int CcrUpstreamError = 2;
 
         public List<EvidenceCode> GetEvidenceCodes()
         {
-            var a = new List<EvidenceCode>()
+            return new List<EvidenceCode>()
             {
-                new EvidenceCode()
+                new()
                 {
-                    EvidenceCodeName = "DATASETNAME1",
-                    EvidenceSource = EvidenceSourceMetadata.SOURCE,
-                    ServiceContext = "servicecontext ie ebevis",
-                    AccessMethod = EvidenceAccessMethod.Open,
+                    EvidenceCodeName = "TestConsentWithAccessMethod",
+                    EvidenceSource = Source,
+                    BelongsToServiceContexts = new List<string> { "test", "ebevis" },
+                    AccessMethod = EvidenceAccessMethod.Consent,
+                    ServiceCode = "5616",
+                    ServiceEditionCode = 2,
                     Values = new List<EvidenceValue>()
                     {
-                        new EvidenceValue()
+                        new()
                         {
                             EvidenceValueName = "field1",
-                            ValueType = EvidenceValueType.String
-                        },
-                        new EvidenceValue()
-                        {
-                            EvidenceValueName = "field2",
                             ValueType = EvidenceValueType.String
                         }
                     }
                 },
-                new EvidenceCode()
+                new()
                 {
-                    EvidenceCodeName = "DATASETNAME2",
-                    EvidenceSource = EvidenceSourceMetadata.SOURCE,
-                    ServiceContext = "servicecontext ie ebevis",
+                    EvidenceCodeName = "TestConsentWithRequirement",
+                    EvidenceSource = Source,
+                    BelongsToServiceContexts = new List<string> { "test", "ebevis" },
                     AccessMethod = EvidenceAccessMethod.Open,
+                    AuthorizationRequirements = new List<Requirement>
+                    {
+                        new ConsentRequirement()
+                        {
+                            ServiceCode = "5616",
+                            ServiceEdition = 2,
+                            ConsentPeriodInDays = 90,
+                            RequiresSrr = true
+                        }
+                    },
                     Values = new List<EvidenceValue>()
                     {
-                        new EvidenceValue()
+                        new()
                         {
                             EvidenceValueName = "field1",
                             ValueType = EvidenceValueType.String
-                        },
-                        new EvidenceValue()
-                        {
-                            EvidenceValueName = "field2",
-                            ValueType = EvidenceValueType.String
-                        },
-                        new EvidenceValue()
-                        {
-                            EvidenceValueName = "field3",
-                            ValueType = EvidenceValueType.DateTime
                         }
                     }
-                }
+                },
+                new()
+                {
+                    EvidenceCodeName = "TestConsentWithSoftConsentRequirement",
+                    EvidenceSource = Source,
+                    BelongsToServiceContexts = new List<string> { "test", "ebevis" },
+                    AccessMethod = EvidenceAccessMethod.Open,
+                    AuthorizationRequirements = new List<Requirement>
+                    {
+                        new ConsentRequirement()
+                        {
+                            ServiceCode = "5616",
+                            ServiceEdition = 2,
+                            ConsentPeriodInDays = 90,
+                            RequiresSrr = true,
+                            FailureAction = FailureAction.Skip
+                        }
+                    },
+                    Values = new List<EvidenceValue>()
+                    {
+                        new()
+                        {
+                            EvidenceValueName = "field1",
+                            ValueType = EvidenceValueType.String
+                        }
+                    }
+                },
+                new()
+                {
+                    EvidenceCodeName = "TestConsentWithConsentAndSoftLegalBasisRequirement",
+                    EvidenceSource = Source,
+                    BelongsToServiceContexts = new List<string> { "test", "ebevis" },
+                    AccessMethod = EvidenceAccessMethod.Open,
+                    AuthorizationRequirements = new List<Requirement>
+                    {
+                        new ConsentRequirement()
+                        {
+                            ServiceCode = "5616",
+                            ServiceEdition = 2,
+                            ConsentPeriodInDays = 90,
+                            RequiresSrr = true
+                        },
+                        new LegalBasisRequirement()
+                        {
+                            ValidLegalBasisTypes = LegalBasisType.Cpv,
+                            AppliesToServiceContext = new List<string> { "test "},
+                            FailureAction = FailureAction.Skip
+                        }
+                    },
+                    Values = new List<EvidenceValue>()
+                    {
+                        new()
+                        {
+                            EvidenceValueName = "field1",
+                            ValueType = EvidenceValueType.String
+                        }
+                    }
+                },
+                new()
+                {
+                    EvidenceCodeName = "TestConsentWithMultipleConsentAndSoftLegalBasisRequirements",
+                    EvidenceSource = Source,
+                    BelongsToServiceContexts = new List<string> { "test", "ebevis" },
+                    AccessMethod = EvidenceAccessMethod.Open,
+                    AuthorizationRequirements = new List<Requirement>
+                    {
+                        new ConsentRequirement()
+                        {
+                            AppliesToServiceContext = new List<string> { "test" },
+                            ServiceCode = "5616",
+                            ServiceEdition = 2,
+                            ConsentPeriodInDays = 90,
+                            RequiresSrr = true,
+                        },
+                        new ConsentRequirement()
+                        {
+                            AppliesToServiceContext = new List<string> { "ebevis" },
+                            ServiceCode = "5616",
+                            ServiceEdition = 1,
+                            ConsentPeriodInDays = 90,
+                            RequiresSrr = true,
+                        },
+                        new LegalBasisRequirement()
+                        {
+                            AppliesToServiceContext = new List<string> { "test "},
+                            ValidLegalBasisTypes = LegalBasisType.Cpv,
+                            FailureAction = FailureAction.Skip
+                        },
+                        new LegalBasisRequirement()
+                        {
+                            AppliesToServiceContext = new List<string> { "ebevis "},
+                            ValidLegalBasisTypes = LegalBasisType.Cpv,
+                            FailureAction = FailureAction.Deny
+                        }
+                    },
+                    Values = new List<EvidenceValue>()
+                    {
+                        new()
+                        {
+                            EvidenceValueName = "field1",
+                            ValueType = EvidenceValueType.String
+                        }
+                    }
+                },
             };
-
-            return a;
-        }
-    }
-
-    public class EvidenceSourceMetadata : IEvidenceSourceMetadata
-    {
-        public const string SOURCE = "Digdir";
-
-        public const int ERROR_ORGANIZATION_NOT_FOUND = 1;
-
-        public const int ERROR_CCR_UPSTREAM_ERROR = 2;
-
-        public const int ERROR_NO_REPORT_AVAILABLE = 3;
-
-        public const int ERROR_ASYNC_REQUIRED_PARAMS_MISSING = 4;
-
-        public const int ERROR_ASYNC_ALREADY_INITIALIZED = 5;
-
-        public const int ERROR_ASYNC_NOT_INITIALIZED = 6;
-
-        public const int ERROR_AYNC_STATE_STORAGE = 7;
-
-        public const int ERROR_ASYNC_HARVEST_NOT_AVAILABLE = 8;
-
-        public const int ERROR_CERTIFICATE_OF_REGISTRATION_NOT_AVAILABLE = 9;
-
-        private ApplicationSettings _settings;
-
-        public EvidenceSourceMetadata(IApplicationSettings settings)
-        {
-            _settings = (ApplicationSettings)settings;
-        }
-
-        public List<EvidenceCode> GetEvidenceCodes()
-        {
-            return (new Metadata(_settings)).GetEvidenceCodes();
         }
     }
 }
