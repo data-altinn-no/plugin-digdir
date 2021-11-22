@@ -17,9 +17,9 @@ namespace Altinn.Dan.Plugin.Digdir
         private ILogger _logger;
         private readonly EvidenceSourceMetadata _metadata;
 
-        public Main(ILogger logger, IEvidenceSourceMetadata metadata)
+        public Main(FunctionContext context, IEvidenceSourceMetadata metadata)
         {
-            _logger = logger;
+            _logger = context.GetLogger("Altinn.Dan.Plugin.Digdir");
             _metadata = (EvidenceSourceMetadata)metadata;
         }
 
