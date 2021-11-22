@@ -1,6 +1,6 @@
 using System;
 
-namespace Altinn.Dan.Plugin.DATASOURCENAME.Config
+namespace Altinn.Dan.Plugin.Digdir.Config
 {
     public class ApplicationSettings : IApplicationSettings
     {
