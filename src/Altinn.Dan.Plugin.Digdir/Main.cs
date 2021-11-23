@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Azure.Core.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -9,6 +12,7 @@ using Nadobe;
 using Nadobe.Common.Interfaces;
 using Nadobe.Common.Models;
 using Nadobe.Common.Util;
+using Newtonsoft.Json;
 
 namespace Altinn.Dan.Plugin.Digdir
 {
@@ -17,9 +21,8 @@ namespace Altinn.Dan.Plugin.Digdir
         private ILogger _logger;
         private readonly EvidenceSourceMetadata _metadata;
 
-        public Main(FunctionContext context, IEvidenceSourceMetadata metadata)
+        public Main(IEvidenceSourceMetadata metadata)
         {
-            _logger = context.GetLogger("Altinn.Dan.Plugin.Digdir");
             _metadata = (EvidenceSourceMetadata)metadata;
         }
 
@@ -55,14 +58,21 @@ namespace Altinn.Dan.Plugin.Digdir
 
 
         [Function(Constants.EvidenceSourceMetadataFunctionName)]
-        public async Task<HttpResponseData> Metadata(
+        public HttpResponseData Metadata(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequestData req,
             FunctionContext context)
         {
             _logger = context.GetLogger(context.FunctionDefinition.Name);
             _logger.LogInformation($"Running metadata for {Constants.EvidenceSourceMetadataFunctionName}");
+
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(_metadata.GetEvidenceCodes());
+            response.Headers.Add("Content-Type", "application/json");
+            response.WriteString(JsonConvert.SerializeObject(_metadata.GetEvidenceCodes(), new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                NullValueHandling = NullValueHandling.Ignore
+            }));
+
             return response;
         }
 

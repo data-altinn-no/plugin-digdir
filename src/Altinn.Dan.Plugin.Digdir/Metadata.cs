@@ -19,7 +19,7 @@ namespace Altinn.Dan.Plugin.Digdir
                 {
                     EvidenceCodeName = "TestConsentWithAccessMethod",
                     EvidenceSource = Source,
-                    BelongsToServiceContexts = new List<string> { "test", "ebevis" },
+                    BelongsToServiceContexts = new List<string> { "test", "ebevis-product" },
                     AccessMethod = EvidenceAccessMethod.Consent,
                     ServiceCode = "5616",
                     ServiceEditionCode = 2,
@@ -36,7 +36,7 @@ namespace Altinn.Dan.Plugin.Digdir
                 {
                     EvidenceCodeName = "TestConsentWithRequirement",
                     EvidenceSource = Source,
-                    BelongsToServiceContexts = new List<string> { "test", "ebevis" },
+                    BelongsToServiceContexts = new List<string> { "test", "ebevis-product" },
                     AccessMethod = EvidenceAccessMethod.Open,
                     AuthorizationRequirements = new List<Requirement>
                     {
@@ -61,7 +61,7 @@ namespace Altinn.Dan.Plugin.Digdir
                 {
                     EvidenceCodeName = "TestConsentWithSoftConsentRequirement",
                     EvidenceSource = Source,
-                    BelongsToServiceContexts = new List<string> { "test", "ebevis" },
+                    BelongsToServiceContexts = new List<string> { "test", "ebevis-product" },
                     AccessMethod = EvidenceAccessMethod.Open,
                     AuthorizationRequirements = new List<Requirement>
                     {
@@ -87,7 +87,7 @@ namespace Altinn.Dan.Plugin.Digdir
                 {
                     EvidenceCodeName = "TestConsentWithConsentAndSoftLegalBasisRequirement",
                     EvidenceSource = Source,
-                    BelongsToServiceContexts = new List<string> { "test", "ebevis" },
+                    BelongsToServiceContexts = new List<string> { "test", "ebevis-product" },
                     AccessMethod = EvidenceAccessMethod.Open,
                     AuthorizationRequirements = new List<Requirement>
                     {
@@ -101,7 +101,7 @@ namespace Altinn.Dan.Plugin.Digdir
                         new LegalBasisRequirement()
                         {
                             ValidLegalBasisTypes = LegalBasisType.Cpv,
-                            AppliesToServiceContext = new List<string> { "test "},
+                            AppliesToServiceContext = new List<string> { "test" },
                             FailureAction = FailureAction.Skip
                         }
                     },
@@ -118,7 +118,7 @@ namespace Altinn.Dan.Plugin.Digdir
                 {
                     EvidenceCodeName = "TestConsentWithMultipleConsentAndSoftLegalBasisRequirements",
                     EvidenceSource = Source,
-                    BelongsToServiceContexts = new List<string> { "test", "ebevis" },
+                    BelongsToServiceContexts = new List<string> { "test", "ebevis-product" },
                     AccessMethod = EvidenceAccessMethod.Open,
                     AuthorizationRequirements = new List<Requirement>
                     {
@@ -132,7 +132,7 @@ namespace Altinn.Dan.Plugin.Digdir
                         },
                         new ConsentRequirement()
                         {
-                            AppliesToServiceContext = new List<string> { "ebevis" },
+                            AppliesToServiceContext = new List<string> { "ebevis-product" },
                             ServiceCode = "5616",
                             ServiceEdition = 1,
                             ConsentPeriodInDays = 90,
@@ -140,13 +140,13 @@ namespace Altinn.Dan.Plugin.Digdir
                         },
                         new LegalBasisRequirement()
                         {
-                            AppliesToServiceContext = new List<string> { "test "},
+                            AppliesToServiceContext = new List<string> { "test"},
                             ValidLegalBasisTypes = LegalBasisType.Cpv,
                             FailureAction = FailureAction.Skip
                         },
                         new LegalBasisRequirement()
                         {
-                            AppliesToServiceContext = new List<string> { "ebevis "},
+                            AppliesToServiceContext = new List<string> { "ebevis-product"},
                             ValidLegalBasisTypes = LegalBasisType.Cpv,
                             FailureAction = FailureAction.Deny
                         }
