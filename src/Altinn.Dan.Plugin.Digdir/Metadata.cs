@@ -14,30 +14,12 @@ namespace Altinn.Dan.Plugin.Digdir
         public List<EvidenceCode> GetEvidenceCodes()
         {
             return new List<EvidenceCode>()
-            {
-                new()
-                {
-                    EvidenceCodeName = "TestConsentWithAccessMethod",
-                    EvidenceSource = Source,
-                    BelongsToServiceContexts = new List<string> { "test", "ebevis-product" },
-                    AccessMethod = EvidenceAccessMethod.Consent,
-                    ServiceCode = "5616",
-                    ServiceEditionCode = 2,
-                    Values = new List<EvidenceValue>()
-                    {
-                        new()
-                        {
-                            EvidenceValueName = "field1",
-                            ValueType = EvidenceValueType.String
-                        }
-                    }
-                },
+            {                
                 new()
                 {
                     EvidenceCodeName = "TestConsentWithRequirement",
                     EvidenceSource = Source,
                     BelongsToServiceContexts = new List<string> { "test", "ebevis-product" },
-                    AccessMethod = EvidenceAccessMethod.Open,
                     AuthorizationRequirements = new List<Requirement>
                     {
                         new ConsentRequirement()
@@ -62,7 +44,6 @@ namespace Altinn.Dan.Plugin.Digdir
                     EvidenceCodeName = "TestConsentWithSoftConsentRequirement",
                     EvidenceSource = Source,
                     BelongsToServiceContexts = new List<string> { "test", "ebevis-product" },
-                    AccessMethod = EvidenceAccessMethod.Open,
                     AuthorizationRequirements = new List<Requirement>
                     {
                         new ConsentRequirement()
@@ -88,7 +69,6 @@ namespace Altinn.Dan.Plugin.Digdir
                     EvidenceCodeName = "TestConsentWithConsentAndSoftLegalBasisRequirement",
                     EvidenceSource = Source,
                     BelongsToServiceContexts = new List<string> { "test", "ebevis-product" },
-                    AccessMethod = EvidenceAccessMethod.Open,
                     AuthorizationRequirements = new List<Requirement>
                     {
                         new ConsentRequirement()
@@ -119,7 +99,6 @@ namespace Altinn.Dan.Plugin.Digdir
                     EvidenceCodeName = "TestConsentWithMultipleConsentAndSoftLegalBasisRequirements",
                     EvidenceSource = Source,
                     BelongsToServiceContexts = new List<string> { "test", "ebevis-product" },
-                    AccessMethod = EvidenceAccessMethod.Open,
                     AuthorizationRequirements = new List<Requirement>
                     {
                         new ConsentRequirement()
