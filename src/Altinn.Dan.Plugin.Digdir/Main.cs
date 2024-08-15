@@ -1,17 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Azure.Core.Serialization;
-using Microsoft.AspNetCore.Mvc;
+using Altinn.Dan.Plugin.Digdir.Models;
+using Dan.Common;
+using Dan.Common.Interfaces;
+using Dan.Common.Models;
+using Dan.Common.Util;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
-using Nadobe;
-using Nadobe.Common.Interfaces;
-using Nadobe.Common.Models;
-using Nadobe.Common.Util;
 using Newtonsoft.Json;
 
 namespace Altinn.Dan.Plugin.Digdir
@@ -20,6 +18,7 @@ namespace Altinn.Dan.Plugin.Digdir
     {
         private ILogger _logger;
         private readonly EvidenceSourceMetadata _metadata;
+        private const string Source = "Digdir";
 
         public Main(IEvidenceSourceMetadata metadata)
         {
@@ -27,33 +26,83 @@ namespace Altinn.Dan.Plugin.Digdir
         }
 
         [Function("TestConsentWithAccessMethod")]
-        public async Task<IActionResult> TestConsentWithAccessMethod([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
+        public async Task<HttpResponseData> TestConsentWithAccessMethod([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
         {
             return await EvidenceSourceResponse.CreateResponse(null, GetEvidenceValues);
         }
 
         [Function("TestConsentWithRequirement")]
-        public async Task<IActionResult> TestConsentWithRequirement([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
+        public async Task<HttpResponseData> TestConsentWithRequirement([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
         {
             return await EvidenceSourceResponse.CreateResponse(null, GetEvidenceValues);
         }
 
         [Function("TestConsentWithSoftConsentRequirement")]
-        public async Task<IActionResult> TestConsentWithSoftConsentRequirement([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
+        public async Task<HttpResponseData> TestConsentWithSoftConsentRequirement([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
         {
             return await EvidenceSourceResponse.CreateResponse(null, GetEvidenceValues);
         }
 
         [Function("TestConsentWithConsentAndSoftLegalBasisRequirement")]
-        public async Task<IActionResult> TestConsentWithConsentAndSoftLegalBasisRequirement([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
+        public async Task<HttpResponseData> TestConsentWithConsentAndSoftLegalBasisRequirement([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
         {
             return await EvidenceSourceResponse.CreateResponse(null, GetEvidenceValues);
         }
 
         [Function("TestConsentWithMultipleConsentAndSoftLegalBasisRequirements")]
-        public async Task<IActionResult> TestConsentWithMultipleConsentAndSoftLegalBasisRequirements([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
+        public async Task<HttpResponseData> TestConsentWithMultipleConsentAndSoftLegalBasisRequirements([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
         {
             return await EvidenceSourceResponse.CreateResponse(null, GetEvidenceValues);
+        }
+
+        [Function("SimpleEvidence")]
+        public async Task<HttpResponseData> SimpleEvidence([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
+        {
+            var evidenceValues = new List<EvidenceValue>
+            {
+                new()
+                {
+                    EvidenceValueName = "name",
+                    Source = Source,
+                    Value = Guid.NewGuid().ToString()
+                },
+                new()
+                {
+                    EvidenceValueName = "number",
+                    Source = Source,
+                    Value = new Random().Next(1, 11)
+                },
+            };
+            return await EvidenceSourceResponse.CreateResponse(req, () => Task.FromResult(evidenceValues));
+        }
+
+        [Function("RichEvidence")]
+        public async Task<HttpResponseData> RichEvidence([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
+        {
+            // Just some random values for fun
+            var mainName = Guid.NewGuid().ToString();
+            var randomNumber = new Random().Next(1, 11);
+            var richEvidence = new RichEvidence
+            {
+                Name = Guid.NewGuid().ToString(),
+                Number = randomNumber,
+                TrueOrFalse = randomNumber % 2 == 0,
+                SubEvidence = new()
+                {
+                    SubName = "Sub-" + mainName,
+                    SubNumber = ((double)randomNumber)/2
+                }
+            };
+            var evidenceValues = new List<EvidenceValue>
+            {
+                new()
+                {
+                    EvidenceValueName = "default",
+                    Source = Source,
+                    Value = richEvidence
+                }
+            };
+            return await EvidenceSourceResponse.CreateResponse(req, () => Task.FromResult(evidenceValues));
         }
 
 
