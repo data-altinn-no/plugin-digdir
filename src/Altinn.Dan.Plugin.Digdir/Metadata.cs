@@ -146,7 +146,7 @@ namespace Altinn.Dan.Plugin.Digdir
                 {
                     EvidenceCodeName = "SimpleEvidence",
                     EvidenceSource = Source,
-                    BelongsToServiceContexts = new List<string> { "dantest-product" },
+                    BelongsToServiceContexts = new List<string> { "DAN-test" },
                     Values = new List<EvidenceValue>()
                     {
                         new()
@@ -166,7 +166,7 @@ namespace Altinn.Dan.Plugin.Digdir
                 {
                     EvidenceCodeName = "RichEvidence",
                     EvidenceSource = Source,
-                    BelongsToServiceContexts = new List<string> { "dantest-product" },
+                    BelongsToServiceContexts = new List<string> { "DAN-test" },
                     Values = new List<EvidenceValue>()
                     {
                         new()
