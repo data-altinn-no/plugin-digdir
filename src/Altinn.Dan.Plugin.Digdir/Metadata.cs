@@ -1,7 +1,10 @@
 using System.Collections.Generic;
-using Nadobe.Common.Interfaces;
-using Nadobe.Common.Models;
-using Nadobe.Common.Models.Enums;
+using Altinn.Dan.Plugin.Digdir.Models;
+using Dan.Common.Enums;
+using Dan.Common.Interfaces;
+using Dan.Common.Models;
+using Newtonsoft.Json;
+using NJsonSchema;
 
 namespace Altinn.Dan.Plugin.Digdir
 {
@@ -139,6 +142,42 @@ namespace Altinn.Dan.Plugin.Digdir
                         }
                     }
                 },
+                new()
+                {
+                    EvidenceCodeName = "SimpleEvidence",
+                    EvidenceSource = Source,
+                    BelongsToServiceContexts = new List<string> { "DAN-test" },
+                    Values = new List<EvidenceValue>()
+                    {
+                        new()
+                        {
+                            EvidenceValueName = "name",
+                            Source = Source,
+                            ValueType = EvidenceValueType.String
+                        },
+                        new()
+                        {
+                            EvidenceValueName = "number",
+                            ValueType = EvidenceValueType.Number
+                        }
+                    }
+                },
+                new()
+                {
+                    EvidenceCodeName = "RichEvidence",
+                    EvidenceSource = Source,
+                    BelongsToServiceContexts = new List<string> { "DAN-test" },
+                    Values = new List<EvidenceValue>()
+                    {
+                        new()
+                        {
+                            EvidenceValueName = "default",
+                            Source = Source,
+                            ValueType = EvidenceValueType.JsonSchema,
+                            JsonSchemaDefintion = JsonSchema.FromType<RichEvidence>().ToJson(Formatting.None)
+                        }
+                    }
+                }
             };
         }
     }

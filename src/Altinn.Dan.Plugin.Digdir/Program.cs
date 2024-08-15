@@ -3,10 +3,11 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Altinn.Dan.Plugin.Digdir.Config;
+using Dan.Common.Extensions;
+using Dan.Common.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Nadobe.Common.Interfaces;
 using Polly;
 using Polly.Caching.Distributed;
 using Polly.Extensions.Http;
@@ -21,7 +22,7 @@ namespace Altinn.Dan.Plugin.Digdir
         private static Task Main(string[] args)
         {
             var host = new HostBuilder()
-                .ConfigureFunctionsWorkerDefaults()
+                .ConfigureDanPluginDefaults()
                 .ConfigureServices(services =>
                 {
                     services.AddLogging();
