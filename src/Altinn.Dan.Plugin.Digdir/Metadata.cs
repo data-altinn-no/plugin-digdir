@@ -22,7 +22,7 @@ namespace Altinn.Dan.Plugin.Digdir
                 {
                     EvidenceCodeName = "TestConsentWithRequirement",
                     EvidenceSource = Source,
-                    BelongsToServiceContexts = new List<string> { "test", "ebevis-product" },
+                    BelongsToServiceContexts = new List<string> { "test", "DAN-test" },
                     AuthorizationRequirements = new List<Requirement>
                     {
                         new ConsentRequirement()
@@ -46,7 +46,7 @@ namespace Altinn.Dan.Plugin.Digdir
                 {
                     EvidenceCodeName = "TestConsentWithSoftConsentRequirement",
                     EvidenceSource = Source,
-                    BelongsToServiceContexts = new List<string> { "test", "ebevis-product" },
+                    BelongsToServiceContexts = new List<string> { "test", "DAN-test" },
                     AuthorizationRequirements = new List<Requirement>
                     {
                         new ConsentRequirement()
@@ -71,7 +71,7 @@ namespace Altinn.Dan.Plugin.Digdir
                 {
                     EvidenceCodeName = "TestConsentWithConsentAndSoftLegalBasisRequirement",
                     EvidenceSource = Source,
-                    BelongsToServiceContexts = new List<string> { "test", "ebevis-product" },
+                    BelongsToServiceContexts = new List<string> { "test", "DAN-test" },
                     AuthorizationRequirements = new List<Requirement>
                     {
                         new ConsentRequirement()
@@ -101,7 +101,7 @@ namespace Altinn.Dan.Plugin.Digdir
                 {
                     EvidenceCodeName = "TestConsentWithMultipleConsentAndSoftLegalBasisRequirements",
                     EvidenceSource = Source,
-                    BelongsToServiceContexts = new List<string> { "test", "ebevis-product" },
+                    BelongsToServiceContexts = new List<string> { "test", "DAN-test" },
                     AuthorizationRequirements = new List<Requirement>
                     {
                         new ConsentRequirement()
@@ -114,7 +114,7 @@ namespace Altinn.Dan.Plugin.Digdir
                         },
                         new ConsentRequirement()
                         {
-                            AppliesToServiceContext = new List<string> { "ebevis-product" },
+                            AppliesToServiceContext = new List<string> { "DAN-test" },
                             ServiceCode = "5616",
                             ServiceEdition = 1,
                             ConsentPeriodInDays = 90,
@@ -128,7 +128,7 @@ namespace Altinn.Dan.Plugin.Digdir
                         },
                         new LegalBasisRequirement()
                         {
-                            AppliesToServiceContext = new List<string> { "ebevis-product"},
+                            AppliesToServiceContext = new List<string> { "DAN-test" },
                             ValidLegalBasisTypes = LegalBasisType.Cpv,
                             FailureAction = FailureAction.Deny
                         }
