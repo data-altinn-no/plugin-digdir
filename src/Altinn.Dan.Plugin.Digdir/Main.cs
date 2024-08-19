@@ -28,31 +28,31 @@ namespace Altinn.Dan.Plugin.Digdir
         [Function("TestConsentWithAccessMethod")]
         public async Task<HttpResponseData> TestConsentWithAccessMethod([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
         {
-            return await EvidenceSourceResponse.CreateResponse(null, GetEvidenceValues);
+            return await EvidenceSourceResponse.CreateResponse(req, GetEvidenceValues);
         }
 
         [Function("TestConsentWithRequirement")]
         public async Task<HttpResponseData> TestConsentWithRequirement([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
         {
-            return await EvidenceSourceResponse.CreateResponse(null, GetEvidenceValues);
+            return await EvidenceSourceResponse.CreateResponse(req, GetEvidenceValues);
         }
 
         [Function("TestConsentWithSoftConsentRequirement")]
         public async Task<HttpResponseData> TestConsentWithSoftConsentRequirement([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
         {
-            return await EvidenceSourceResponse.CreateResponse(null, GetEvidenceValues);
+            return await EvidenceSourceResponse.CreateResponse(req, GetEvidenceValues);
         }
 
         [Function("TestConsentWithConsentAndSoftLegalBasisRequirement")]
         public async Task<HttpResponseData> TestConsentWithConsentAndSoftLegalBasisRequirement([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
         {
-            return await EvidenceSourceResponse.CreateResponse(null, GetEvidenceValues);
+            return await EvidenceSourceResponse.CreateResponse(req, GetEvidenceValues);
         }
 
         [Function("TestConsentWithMultipleConsentAndSoftLegalBasisRequirements")]
         public async Task<HttpResponseData> TestConsentWithMultipleConsentAndSoftLegalBasisRequirements([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequestData req)
         {
-            return await EvidenceSourceResponse.CreateResponse(null, GetEvidenceValues);
+            return await EvidenceSourceResponse.CreateResponse(req, GetEvidenceValues);
         }
 
         [Function("SimpleEvidence")]
