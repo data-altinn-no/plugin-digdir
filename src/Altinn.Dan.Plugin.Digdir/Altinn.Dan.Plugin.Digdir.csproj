@@ -7,7 +7,7 @@
     <UseAppHost>false</UseAppHost>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Dan.Common" Version="1.6.0" />
+    <PackageReference Include="Dan.Common" Version="1.6.2" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.2.0" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="1.3.2" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.ApplicationInsights" Version="1.0.0-preview4" />

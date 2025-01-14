@@ -17,7 +17,7 @@ namespace Altinn.Dan.Plugin.Digdir
         public List<EvidenceCode> GetEvidenceCodes()
         {
             return new List<EvidenceCode>()
-            {                
+            {
                 new()
                 {
                     EvidenceCodeName = "TestConsentWithRequirement",
@@ -160,7 +160,8 @@ namespace Altinn.Dan.Plugin.Digdir
                             EvidenceValueName = "number",
                             ValueType = EvidenceValueType.Number
                         }
-                    }
+                    },
+                    License = "Non-URL License"
                 },
                 new()
                 {
@@ -176,7 +177,8 @@ namespace Altinn.Dan.Plugin.Digdir
                             ValueType = EvidenceValueType.JsonSchema,
                             JsonSchemaDefintion = JsonSchema.FromType<RichEvidence>().ToJson(Formatting.None)
                         }
-                    }
+                    },
+                    License = "https://data.norge.no/nlod/no/2.0"
                 }
             };
         }
