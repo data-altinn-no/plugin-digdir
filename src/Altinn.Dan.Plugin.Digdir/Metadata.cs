@@ -4,7 +4,6 @@ using Dan.Common.Enums;
 using Dan.Common.Interfaces;
 using Dan.Common.Models;
 using Newtonsoft.Json;
-using NJsonSchema;
 
 namespace Altinn.Dan.Plugin.Digdir
 {
@@ -175,7 +174,7 @@ namespace Altinn.Dan.Plugin.Digdir
                             EvidenceValueName = "default",
                             Source = Source,
                             ValueType = EvidenceValueType.JsonSchema,
-                            JsonSchemaDefintion = JsonSchema.FromType<RichEvidence>().ToJson(Formatting.None)
+                            JsonSchemaDefintion = EvidenceValue.SchemaFromObject<RichEvidence>(Formatting.None)
                         }
                     },
                     License = "https://data.norge.no/nlod/no/2.0"
