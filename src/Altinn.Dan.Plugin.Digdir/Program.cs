@@ -25,9 +25,6 @@ namespace Altinn.Dan.Plugin.Digdir
                 .ConfigureDanPluginDefaults()
                 .ConfigureServices(services =>
                 {
-                    services.AddLogging();
-                    services.AddHttpClient();
-
                     services.AddSingleton<IApplicationSettings, ApplicationSettings>();
                     services.AddSingleton<IEvidenceSourceMetadata, EvidenceSourceMetadata>();
 
